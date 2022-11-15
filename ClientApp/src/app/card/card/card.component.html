@@ -1,0 +1,39 @@
+<mat-card class="form-card" *ngIf="player1Selected ==''">
+  <h1>Round {{roundCounter}}</h1>
+  <div>
+    <h3>{{player1Name}}</h3>
+    <div>
+      <mat-form-field appearance="fill">
+        <mat-label>Select an option</mat-label>
+        <mat-select [(value)]="selected">
+          <mat-option value="rock">Rock</mat-option>
+          <mat-option value="paper">Paper</mat-option>
+          <mat-option value="scissors">Scissors</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  <div>
+    <button class="btn btn-outline-dark" mat-button (click)="userPick1()">ok</button>
+  </div>
+</mat-card>
+<mat-card class="form-card" *ngIf="player1Selected != ''">
+  <h1>Round {{roundCounter}}</h1>
+  <div>
+    <h3>{{player2Name}}</h3>
+    <div>
+      <mat-form-field appearance="fill">
+        <mat-label>Select an option</mat-label>
+        <mat-select [(value)]="selected1">
+          <mat-option value="rock">Rock</mat-option>
+          <mat-option value="paper">Paper</mat-option>
+          <mat-option value="scissors">Scissors</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button class="btn btn-outline-dark" mat-button  (click)="userPick2()" (click)="incrementCounter()">ok</button>
+  </div>
+</mat-card>
+<app-score></app-score>

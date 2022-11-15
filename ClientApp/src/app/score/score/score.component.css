@@ -1,0 +1,10 @@
+.form-card{
+    max-width: 300px;
+    text-align: center;
+    margin-left: 615px;
+    margin-top: 50px;
+    display: inline-block;
+    flex-direction: column;
+
+    
+}

@@ -1,4 +1,4 @@
-export class Move{
-    Name!: string;
-    Kill!: string;
+export class Move {
+    name!: string;
+    kill!: string;
 }

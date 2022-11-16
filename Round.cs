@@ -12,7 +12,7 @@ namespace GameOfDrones
         public int GameId { get; set; }
         public Game Game { get; set; }
         public int RoundWinner { get; set; }
-        public Move? MoveP1 { get; set; }
-        public Move? MoveP2 { get; set; }
+        public Move MoveP1 { get; set; }
+        public Move MoveP2 { get; set; }
     }
 }

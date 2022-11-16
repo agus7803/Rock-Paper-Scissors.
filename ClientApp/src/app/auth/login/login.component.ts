@@ -35,15 +35,11 @@ export class LoginComponent implements OnInit {
       Player2: this.formulario.value.player2,
     }
     this.authService.nuevoJuego(dtPlayer).subscribe(game => {
-      console.log(game);
-      console.log("11111", game.id);
       sessionStorage.setItem('player1', dtPlayer.Player1);
       sessionStorage.setItem('player2', dtPlayer.Player2);
-      console.log("2222", game.id);
       sessionStorage.setItem('gameId', game.id.toString());
-      console.log("LOGIN ID", game.id.toString());
+      this.router.navigate(['/home']);
+    });
 
-     });
-    this.router.navigate(['/card'])
   }
 }

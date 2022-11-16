@@ -1,0 +1,23 @@
+.form-card {
+    max-width: 300px;
+    margin-left: 500px;
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+
+
+}
+
+.btn {
+    display: flex;
+    width: 200px;
+    background-color: #457387;
+    padding-left: 70px;
+    margin-left: 35px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.button {
+    padding-left: 85px;
+}

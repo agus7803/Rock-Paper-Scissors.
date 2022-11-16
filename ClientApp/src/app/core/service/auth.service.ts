@@ -6,7 +6,8 @@ import { Observable } from 'rxjs';
 import { DtPlayer } from '../../models/DtPlayer';
 import { Round } from 'src/app/models/Round';
 import { DtRound } from '../../models/DtRound';
-import { GameService } from './game.service';
+import { DtMove } from '../../models/DtMove';
+import { Move } from 'src/app/models/move';
 
 
 @Injectable({
@@ -14,21 +15,20 @@ import { GameService } from './game.service';
 })
 export class AuthService {
   private api: string = environment.api;
-  game!: Game;
   constructor(
     private http: HttpClient,
-    private gameService:GameService,
   ) { }
 
-  nuevoJuego(dtPlayer: DtPlayer):Observable<Game> {
-    //return 
-    return this.http.post<Game>(`${this.api}`, dtPlayer)//.subscribe(gameResult=>{
-      //this.gameService.setGame(gameResult)
-    //});
+  nuevoJuego(dtPlayer: DtPlayer): Observable<Game> {
+    return this.http.post<Game>(`${this.api}`, dtPlayer);
   }
 
   nuevaRonda(dtRound: DtRound): Observable<Round> {
     return this.http.post<Round>(`${this.api}/nuevoRound`, dtRound);
+  }
+
+  nuevoMove(dtMove: DtMove):Observable<Move>{
+    return this.http.post<Move>(`${this.api}/nuevoMove`,dtMove);
   }
 
   getUser(): Observable<Game[]> {
@@ -43,15 +43,11 @@ export class AuthService {
     return this.http.get<Round[]>(`${this.api}/${gameId}`);
   }
 
-  getRoundWinner(roundId: number): Observable<number> {
-    return this.http.get<number>(`${this.api}/${roundId}`);
+  getWinner(roundId: number): Observable<Round> {
+    return this.http.get<Round>(`${this.api}/${roundId}`);
   }
 
-  // getRoundWinner(roundId:number):Observable<string>{
-  //   return this.http.get<string>(`${this.api}/Round/${roundId}`);
-  // }
-
-  // getGameWinner(gameId:number):Observable<string>{
-  //   return this.http.get<string>(`${this.api}/Games/${gameId}`);
-  // }
+  getMoves():Observable<Move[]>{
+    return this.http.get<Move[]>(`${this.api}/moves`);
+  }
 }

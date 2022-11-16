@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using GameOfDrones;
 using GameOfDrones.DataBase;
 using Microsoft.EntityFrameworkCore;
@@ -6,9 +7,9 @@ var AllowSpecificOrigins = "AllowWebapp";
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(x =>
+                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 builder.Services.AddDbContext<DBContext>(options => options.UseSqlServer(connectionString));
-//builder.Services.AddTransient<GameService>();
 builder.Services.AddCors(
     options =>
     {
@@ -37,8 +38,6 @@ using (var service = app.Services.CreateScope())
         context.Moves.Add(new Move() { Name = "paper", Kill = "rock" });
 
         context.Moves.Add(new Move() { Name = "scissors", Kill = "paper" });
-
-        context.Moves.Add(new Move() { Name = "dasda", Kill="dqwew"});
 
         await context.SaveChangesAsync();
     }

@@ -20,7 +20,7 @@ export class ScoreComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private router:Router,
+    private router: Router,
   ) {
   }
 
@@ -47,30 +47,27 @@ export class ScoreComponent implements OnInit {
 
 
   checkResult(player1select: string, player2select: string, gameId: number) {
-    console.log("CHECK ID", gameId);
     const dtRound: DtRound = {
       gameId: gameId,
       MoveP1: player1select,
       MoveP2: player2select,
     }
-    console.log("DtRound",dtRound)
     this.authService.nuevaRonda(dtRound).subscribe(data => {
-      console.log(data);
-      if (data.Game.Winner == 0) {
-        if (data.RoundWinner == 1) {
+      if (data.game.winner == 0) {
+        if (data.roundWinner == 1) {
           this.win();
-        } else if (data.RoundWinner == 2) {
+        } else if (data.roundWinner == 2) {
           this.lose()
         } else {
           alert("Empate");
         }
       } else {
-        if (data.Game.Winner == 1) {
-          alert(`El jugador ${data.Game.Player1} gana el juego`);
-          this.router.navigate(['/login']);
+        if (data.game.winner == 1) {
+          alert(`El jugador ${data.game.player1} gana el juego`);
+          this.router.navigate(['']);
         } else {
-          alert(`El jugador ${data.Game.Player2} gana el juego`);
-          this.router.navigate(['/login']);
+          alert(`El jugador ${data.game.player2} gana el juego`);
+          this.router.navigate(['']);
         }
       }
     });

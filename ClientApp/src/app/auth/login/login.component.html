@@ -1,21 +1,21 @@
- <mat-card class="form-card" *ngIf="logIn == false"> 
+<mat-card class="form-card" *ngIf="logIn == false">
     <h1 mat-dialog-title>Enter Player's name:</h1>
-    <div mat-dialog-content >
+    <div mat-dialog-content>
         <form [formGroup]="formulario" (ngSubmit)="login()">
-            <!-- Campo Usuario -->
+            <!-- Campo Player1 -->
             <mat-form-field appearance="fill">
                 <label>Player 1</label>
                 <input placeholder="Player 2" type="text" formControlName="player1" matInput>
-            </mat-form-field> 
-            <!-- Campo Contraseña -->
+            </mat-form-field>
+            <!-- Campo Player2 -->
             <mat-form-field appearance="fill">
                 <label>Player 2</label>
                 <input placeholder="Player 1" type="text" formControlName="player2" matInput>
             </mat-form-field>
             <div mat-dialog-actions>
-                <button  class="btn btn-outline-dark"  mat-button type="submit"  >Ingresar</button>
+                <button class="btn btn-outline-dark" mat-button type="submit">Ingresar</button>
             </div>
         </form>
     </div>
-</mat-card> 
+</mat-card>
 <router-outlet></router-outlet>

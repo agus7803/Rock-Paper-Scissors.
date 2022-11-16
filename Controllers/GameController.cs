@@ -65,7 +65,7 @@ namespace GameOfDrones.Controllers
             }
         }
 
-        [HttpGet("{moveId}")]
+        [HttpGet("moves")]
         public async Task<IActionResult> GetMoves()
         {
             try
@@ -78,27 +78,6 @@ namespace GameOfDrones.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-     
-
-        //[HttpGet("winner")]
-        //public async Task<IActionResult> GetGameWinner(int gameId)
-        //{
-           
-        //}
-
-        //public IEnumerable<Partida> Get()
-        //{
-        //    return Enumerable.Range(1, 5).Select(index => new Partida
-        //    {
-        //        Date = DateTime.Now.AddDays(index),
-        //        TemperatureC = Random.Shared.Next(-20, 55),
-        //        Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-        //    })
-        //    .ToArray();
-        //}
-
-       
 
         [HttpPost]
         public async Task<ActionResult<Game>> NuevaPartida(DtPlayers dtPlayers)
@@ -127,27 +106,28 @@ namespace GameOfDrones.Controllers
         }
 
         [HttpPost("nuevoRound")]
-        public async Task<IActionResult> NuevaRonda(DtRound dtRonda)
+        public async Task<ActionResult<Round>> NuevaRonda(DtRound dtRonda)
         {
             
 
             try
             {
-               
-                var move1 = _dBContext.Moves.Where(m=> m.Name == dtRonda.MoveP1).First();
-                var move2 = _dBContext.Moves.First(m => m.Name == dtRonda.MoveP2);
-                var game = _dBContext.Games.FirstOrDefault(g => g.Id == dtRonda.gameId);
-                var endGame = false;
-                var round = new Round()
+                Move move1 = _dBContext.Moves.First(m=>m.Name == dtRonda.MoveP1);
+                Move move2 = _dBContext.Moves.First(m => m.Name == dtRonda.MoveP2);
+                Game game = _dBContext.Games.First(g => g.Id == dtRonda.gameId);
+                Round round = new Round()
                 {
                     GameId = dtRonda.gameId,
                     Game = game,
+                    RoundWinner = 0,
                     MoveP1 = move1,
                     MoveP2 = move2,
-                    RoundWinner = 0,
+
                 };
                 _dBContext.Rounds.Add(round);
-                await _dBContext.SaveChangesAsync();
+                game.Rounds.Add(round);
+
+
                 if (round.MoveP1.Name == round.MoveP2.Kill)
                 {
                     round.RoundWinner = 2;
@@ -161,17 +141,38 @@ namespace GameOfDrones.Controllers
                 if (round.Game.Score1 == 3)
                 {
                     round.Game.Winner = 1;
-                    endGame = true;
+                   
                 }
                 else if(round.Game.Score2 == 3)
                 {
                     round.Game.Winner = 2;
-                    endGame = true;
+                    
                 }
+                await _dBContext.SaveChangesAsync();
                 return CreatedAtAction("GetRound", new { id = round.Id }, round);
                 
             }
             catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("nuevoMove")]
+        public async Task<IActionResult> NuevoMove(DtMove dtMove)
+        {
+            try
+            {
+                Move move = new Move()
+                {
+                    Name = dtMove.Name,
+                    Kill = dtMove.Kill,
+                };
+                _dBContext.Moves.Add(move);
+                await _dBContext.SaveChangesAsync();
+                return CreatedAtAction("GetMove", new { id = move.Id }, move);
+
+            }catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }

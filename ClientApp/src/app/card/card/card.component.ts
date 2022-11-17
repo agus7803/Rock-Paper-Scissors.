@@ -19,6 +19,7 @@ export class CardComponent implements OnInit {
   roundCounter: number = 1;
   gameId: number = 0;
   moves!: Move[];
+  moves1:string[] =[];
   @ViewChild(ScoreComponent) resultado!: ScoreComponent;
   constructor(
     private authService: AuthService,
@@ -27,6 +28,14 @@ export class CardComponent implements OnInit {
     this.player2Name = sessionStorage.getItem('player2') || "";
     this.authService.getMoves().subscribe((data) => {
       this.moves = data;
+      data.forEach(element=>{
+        if(this.moves1.indexOf(element.name) == -1){
+          this.moves1.push(element.name);
+        }
+        if(this.moves1.indexOf(element.kill) == -1){
+          this.moves1.push(element.kill);
+        }
+      })
     })
   }
 
@@ -36,10 +45,12 @@ export class CardComponent implements OnInit {
 
   userPick1(): void {
     this.player1Selected = this.selected;
+    console.log(this.player1Selected);
   }
 
   userPick2(): void {
     this.player2Selected = this.selected1;
+    console.log(this.player2Selected);
     this.resultado.checkResult(this.player1Selected, this.player2Selected, this.gameId);
   }
 

@@ -3,17 +3,17 @@
     <form [formGroup]="formulario">
         <!-- Campo Nombre -->
         <mat-form-field appearance="fill">
-            <mat-label>Nombre</mat-label>
+            <mat-label>Name</mat-label>
             <input formControlName="nombre" matInput>
         </mat-form-field>
         <!-- Campo Gana -->
         <mat-form-field appearance="fill">
-            <mat-label>Gana</mat-label>
+            <mat-label>Kill</mat-label>
             <input formControlName="gana" matInput>
         </mat-form-field>
     </form>
 </div>
 <div mat-dialog-actions>
-    <button mat-button (click)="cerrar()">Cerrar</button>
-    <button mat-button (click)="agregar()">Agregar</button>
+    <button mat-button (click)="cerrar()">Close</button>
+    <button mat-button (click)="agregar()">Add</button>
 </div>

@@ -6,7 +6,7 @@
       <mat-form-field appearance="fill">
         <mat-label>Select an option</mat-label>
         <mat-select [(value)]="selected">
-          <mat-option *ngFor="let element of moves" value="element.name">{{element.name}}</mat-option>
+          <mat-option *ngFor="let element of moves1" value="{{element}}">{{element}}</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
@@ -22,8 +22,8 @@
     <div>
       <mat-form-field appearance="fill">
         <mat-label>Select an option</mat-label>
-        <mat-select [(value)]="selected">
-          <mat-option *ngFor="let element of moves" value="element.name">{{element.name}}</mat-option>
+        <mat-select [(value)]="selected1">
+          <mat-option *ngFor="let element of moves1" value="{{element}}">{{element}}</mat-option>
         </mat-select>
       </mat-form-field>
     </div>

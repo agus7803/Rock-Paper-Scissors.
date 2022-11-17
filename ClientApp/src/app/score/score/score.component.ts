@@ -52,6 +52,7 @@ export class ScoreComponent implements OnInit {
       MoveP1: player1select,
       MoveP2: player2select,
     }
+    console.log(dtRound);
     this.authService.nuevaRonda(dtRound).subscribe(data => {
       if (data.game.winner == 0) {
         if (data.roundWinner == 1) {

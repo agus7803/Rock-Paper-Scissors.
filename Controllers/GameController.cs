@@ -94,8 +94,6 @@ namespace GameOfDrones.Controllers
                 };
                 _dBContext.Games.Add(game);
                 await _dBContext.SaveChangesAsync();
-                Console.WriteLine("El Id es");
-                Console.WriteLine(game.Id);
                 return CreatedAtAction("Get",new {id=game.Id},game);
 
             }
@@ -108,12 +106,20 @@ namespace GameOfDrones.Controllers
         [HttpPost("nuevoRound")]
         public async Task<ActionResult<Round>> NuevaRonda(DtRound dtRonda)
         {
-            
+
 
             try
             {
-                Move move1 = _dBContext.Moves.First(m=>m.Name == dtRonda.MoveP1);
-                Move move2 = _dBContext.Moves.First(m => m.Name == dtRonda.MoveP2);
+                Move move1 = _dBContext.Moves.FirstOrDefault(m => (m.Name == dtRonda.MoveP1));
+                if(move1 == null)
+                {
+                    move1 = _dBContext.Moves.FirstOrDefault(m => (m.Kill == dtRonda.MoveP1));
+                }
+                Move move2 = _dBContext.Moves.FirstOrDefault(m => (m.Name == dtRonda.MoveP2));
+                if (move2 == null)
+                {
+                    move2 = _dBContext.Moves.FirstOrDefault(m => (m.Kill == dtRonda.MoveP2));
+                }
                 Game game = _dBContext.Games.First(g => g.Id == dtRonda.gameId);
                 Round round = new Round()
                 {
@@ -128,7 +134,7 @@ namespace GameOfDrones.Controllers
                 game.Rounds.Add(round);
 
 
-                if (round.MoveP1.Name == round.MoveP2.Kill)
+                if (round.MoveP1.Name == round.MoveP2.Kill )
                 {
                     round.RoundWinner = 2;
                     round.Game.Score2++;
@@ -137,6 +143,14 @@ namespace GameOfDrones.Controllers
                 {
                     round.RoundWinner = 1;
                     round.Game.Score1++;
+                }else if(round.MoveP1.Kill == round.MoveP2.Kill && dtRonda.MoveP1 == round.MoveP1.Name)
+                {
+                    round.RoundWinner = 1;
+                    round.Game.Score1++;
+                }else if(dtRonda.MoveP1 == round.MoveP1.Kill)
+                {
+                    round.RoundWinner = 2;
+                    round.Game.Score2++;
                 }
                 if (round.Game.Score1 == 3)
                 {
